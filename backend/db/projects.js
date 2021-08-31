@@ -1,24 +1,39 @@
 // This model mocks a real database model for the sake com simplicity
-const data = [
+let data = [
   {
     id: 1,
     title: "Project 1",
+    author: "John Doe",
+    start_date: "2021-01-02",
+    end_date: "2021-03-31"
   },
   {
     id: 2,
     title: "Project 2",
+    author: "John Doe",
+    start_date: "2021-01-02",
+    end_date: "2021-03-31"
   },
   {
     id: 3,
     title: "Project 3",
+    author: "John Doe",
+    start_date: "2021-01-02",
+    end_date: "2021-03-31"
   },
   {
     id: 4,
     title: "Project 4",
+    author: "John Doe",
+    start_date: "2021-01-02",
+    end_date: "2021-03-31"
   },
   {
     id: 5,
     title: "Project 5",
+    author: "John Doe",
+    start_date: "2021-01-02",
+    end_date: "2021-03-31"
   },
 ];
 export default class {
@@ -44,7 +59,40 @@ export default class {
     );
   };
 
-  // You can add more methods to this mock to extend its functionality or
-  // rewrite it to use any kind of database system (eg. mongo, postgres, etc.)
-  // it is not part of the evaluation process
+  // receives an id (int value)
+  static removeById = (id) => {
+    data = data.filter((project) => project.id !== id);
+    return true;
+  }
+
+  // receives the new project payload
+  static insert = (newProject) => {
+    const lastId = data[data.length - 1].id;
+    const projectData = { ...newProject, id: lastId + 1 };
+
+    data = [...data, projectData];
+
+    return projectData;
+  }
+
+  // receives conditions and the new values to be updated
+  static update = (conditions = {}, projectValues) => {
+    const affectedProject = data.find((obj) =>
+      Object.entries(conditions).reduce((curr, [key, condition]) => {
+        if (!curr) return false;
+        return obj[key] === condition;
+      }, true)
+    );
+    const projectIndex = data.indexOf(affectedProject);
+
+    if (projectIndex === -1) return null;
+    
+    data = data.map((project, index) => {
+      if (index !== projectIndex) return project;
+
+      return { ...project, ...projectValues };
+    });
+
+    return data[projectIndex];
+  }
 }

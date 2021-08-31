@@ -14,4 +14,22 @@ export default class extends Service {
   getAll = () => {
     return Projects.findAll();
   };
+
+  removeById = (id) => {
+    Projects.removeById(id);
+  }
+
+  insert = (projectBody) => {
+    const project = Projects.insert(projectBody);
+
+    return project;
+  }
+
+  update = (id, projectBody) => {
+    const project = Projects.update({ id }, projectBody);
+
+    if (!project) throw new ObjectDoesNotExistError();
+
+    return project;
+  }
 }

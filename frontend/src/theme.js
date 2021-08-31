@@ -7,6 +7,13 @@ const theme = createMuiTheme({
       grey: grey[200],
     },
   },
+  overrides: {
+    MuiTextField: {
+      root: {
+        width: '100%'
+      },
+    },
+  },
 });
 
 export default theme;
